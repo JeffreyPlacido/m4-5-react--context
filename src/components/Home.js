@@ -1,8 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import usePersisted from "../hooks/use-presisted.hook";
+import useInterval from "../hooks/use-interval.hook";
 
-const Home = () => {
+const Home = ({
+  calculateCookiesPerSecond,
+  stuff,
+  cookies,
+  setCookies,
+  setItems,
+  items,
+}) => {
+  React.useEffect(() => {
+    document.title = `${cookies} cookies - Cookie Clicker Workshop`;
+
+    return () => {
+      document.title = "Cookie Clicker Workshop";
+    };
+  });
+
+  useInterval(() => {
+    const numOfGeneratedCookies = calculateCookiesPerSecond(items);
+
+    setCookies(cookies + numOfGeneratedCookies);
+  }, 1000);
+
   return (
     <Wrapper>
       <Title>Cookie game</Title>
